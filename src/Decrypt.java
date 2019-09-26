@@ -11,7 +11,8 @@ public class Decrypt {
     private TreeMap<Integer, Integer> keyLengthSorted = new TreeMap<>();
     private TreeMap<Integer, Integer> possibleKeysLengths = new TreeMap<>();
     private HashMap<String, ArrayList<Integer>> tripplets = new HashMap<>();
-    private HashMap<Character, Double> letterStatistics = new HashMap<>();
+    public static final HashMap<Character, Double> letterStatistics = new HashMap<>();
+    private ArrayList<Caesar> caesars = new ArrayList<>();
     private File letterFile;
     private int userKey;
     int possibleKeylength = 1;
@@ -89,13 +90,18 @@ public class Decrypt {
             }
             caesarStrings.add(caesarString);
         }
-        caesarShift(caesarStrings);
+        caesars = caesarShift(caesarStrings);
+        caesars.forEach( caesar -> {
+            caesar.findKeyLetter();
+        });
         return "";
     }
 
-    private void caesarShift(ArrayList<String> caesarStrings) {
-        HashMap<String, ArrayList<String>> possibleShifts = new HashMap<>();
+
+    private ArrayList<Caesar> caesarShift(ArrayList<String> caesarStrings) {
+        ArrayList<Caesar> newCeasars = new ArrayList<>();
         caesarStrings.forEach(i -> {
+            Caesar caesar = new Caesar();
             ArrayList<String> shiftedStrings = new ArrayList<>();
             letterStatistics.forEach((k, v) -> {
                 String shiftedString = "";
@@ -103,9 +109,12 @@ public class Decrypt {
                     shiftedString += (char) (((i.charAt(j) + k) % 26) + 'A');
                 }
                 shiftedStrings.add(shiftedString);
+                caesar.setEncrypted(i);
             });
-            possibleShifts.put(i, shiftedStrings);
+            caesar.setPossibleDecryptions(shiftedStrings);
+            newCeasars.add(caesar);
         });
+        return newCeasars;
     }
 
 //    chiSquare +=(Math.pow(letterCount -(stat *i.length()),2))/(stat *i.length());

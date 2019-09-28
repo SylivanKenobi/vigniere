@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class Caesar {
     private String encrypted;
     private ArrayList<String> possibleDecryptions;
     private ArrayList<String> possibleKeyValues;
-    private double percent = 0.0;
+    private double chiSquare = 0.0;
+    private double expected = 0.0;
 
     public String getEncrypted() {
         return encrypted;
@@ -31,9 +33,8 @@ public class Caesar {
     }
 
     public void findKeyLetter() {
-        System.out.println("hi");
+        TreeMap<Double, Integer> chiSquares = new TreeMap<>();
         possibleDecryptions.forEach(i -> {
-            percent = 0.0;
             Decrypt.letterStatistics.forEach((abc, stat) -> {
                 int counter = 0;
                 for (int j = 0; j < i.length(); j++) {
@@ -41,11 +42,12 @@ public class Caesar {
                         counter++;
                     }
                 }
-                percent = (counter/i.length())*100;
+                expected = stat * i.length();
+                chiSquare += ((counter - expected) * (counter - expected)) / expected;
             });
-            System.out.println(percent);
-            System.out.println(i.length());
-
+            chiSquares.put(chiSquare, possibleDecryptions.indexOf(i));
+            chiSquare = 0.0;
         });
+        System.out.println(chiSquares);
     }
 }

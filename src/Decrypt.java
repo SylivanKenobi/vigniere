@@ -91,9 +91,7 @@ public class Decrypt {
             caesarStrings.add(caesarString);
         }
         caesars = caesarShift(caesarStrings);
-        caesars.forEach( caesar -> {
-            caesar.findKeyLetter();
-        });
+        caesars.forEach(caesar -> caesar.findKeyLetter());
         return "";
     }
 
@@ -116,7 +114,4 @@ public class Decrypt {
         });
         return newCeasars;
     }
-
-//    chiSquare +=(Math.pow(letterCount -(stat *i.length()),2))/(stat *i.length());
-
 }

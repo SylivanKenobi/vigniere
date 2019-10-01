@@ -11,34 +11,19 @@ public class Decrypt {
     private TreeMap<Integer, Integer> keyLengthSorted = new TreeMap<>();
     private TreeMap<Integer, Integer> possibleKeysLengths = new TreeMap<>();
     private HashMap<String, ArrayList<Integer>> tripplets = new HashMap<>();
-    public static final HashMap<Character, Double> letterStatistics = new HashMap<>();
     private ArrayList<Caesar> caesars = new ArrayList<>();
-    private File letterFile;
-    private int userKey;
-    int possibleKeylength = 1;
-    private Scanner scanner;
-    private Scanner fileScanner;
-    private String caesarString = "";
     private ArrayList<String> caesarStrings = new ArrayList<>();
-    private double chiSquare;
+
+    private int userKey;
+    private int possibleKeylength = 1;
+    private Scanner scanner;
+
+    private String caesarString = "";
 
 
     public String decrypt(String toDecrypt) {
-        try {
-            letterFile = new File("letters.txt");
-            fileScanner = new Scanner(letterFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        while (fileScanner.hasNextLine()) {
-            String input = fileScanner.nextLine();
-            letterStatistics.put(input.split(";")[0].charAt(0), Double.parseDouble(input.split(";")[1]) / 100);
-        }
 //        Aufbrechen und zählen der tripplets
-        for (int i = 0; i < toDecrypt.length(); i++) {
-            if (i + 3 > toDecrypt.length()) {
-                break;
-            }
+        for (int i = 0; i < toDecrypt.length() - 2; i++) {
             if (tripplets.containsKey(toDecrypt.substring(i, i + 3))) {
                 ArrayList<Integer> zs = tripplets.get(toDecrypt.substring(i, i + 3));
                 zs.add(i);
@@ -48,7 +33,6 @@ public class Decrypt {
                 zs.add(i);
                 tripplets.put(toDecrypt.substring(i, i + 3), zs);
             }
-
         }
 
         //Anzahl möglicher Schlüssellängen berechnen
@@ -67,15 +51,18 @@ public class Decrypt {
                 }
             }
         });
+
         keyLength.forEach((k, v) -> {
             keyLengthSorted.put(v, k);
         });
+
         keyLengthSorted.descendingMap().forEach((k, v) -> {
             if (v % possibleKeylength == 0) {
                 possibleKeysLengths.put(k, v);
                 possibleKeylength = v;
             }
         });
+
         System.out.println("Possible key lengths or a fraction of it");
         System.out.println(possibleKeysLengths.descendingMap());
 //      create Key
@@ -101,7 +88,7 @@ public class Decrypt {
         caesarStrings.forEach(i -> {
             Caesar caesar = new Caesar();
             ArrayList<String> shiftedStrings = new ArrayList<>();
-            letterStatistics.forEach((k, v) -> {
+            Main.letterStatistics.forEach((k, v) -> {
                 String shiftedString = "";
                 for (int j = 0; j < i.length(); j++) {
                     shiftedString += (char) (((i.charAt(j) + k) % 26) + 'A');
@@ -114,4 +101,6 @@ public class Decrypt {
         });
         return newCeasars;
     }
+
+
 }

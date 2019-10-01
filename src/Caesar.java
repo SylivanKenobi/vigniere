@@ -32,10 +32,10 @@ public class Caesar {
         this.possibleKeyValues = possibleKeyValues;
     }
 
-    public void findKeyLetter() {
-        TreeMap<Double, Integer> chiSquares = new TreeMap<>();
+    public TreeMap<Double, Character> findKeyLetter() {
+        TreeMap<Double, Character> chiSquares = new TreeMap<>();
         possibleDecryptions.forEach(i -> {
-            Decrypt.letterStatistics.forEach((abc, stat) -> {
+            Main.letterStatistics.forEach((abc, stat) -> {
                 int counter = 0;
                 for (int j = 0; j < i.length(); j++) {
                     if (i.charAt(j) == abc) {
@@ -45,9 +45,11 @@ public class Caesar {
                 expected = stat * i.length();
                 chiSquare += ((counter - expected) * (counter - expected)) / expected;
             });
-            chiSquares.put(chiSquare, possibleDecryptions.indexOf(i));
+            char letter = possibleDecryptions.size() - possibleDecryptions.indexOf(i) == 26 ? 'A' : (char) (possibleDecryptions.size() - possibleDecryptions.indexOf(i) + 65);
+            chiSquares.put(chiSquare, letter);
             chiSquare = 0.0;
         });
         System.out.println(chiSquares);
+        return chiSquares;
     }
 }

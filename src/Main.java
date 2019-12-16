@@ -6,12 +6,29 @@ import java.util.Scanner;
 public class Main {
 
     public static final HashMap<Character, Double> letterStatistics = new HashMap<>();
+    private static Scanner scanner = new Scanner(System.in);
+    private static Encrypt encrypt = new Encrypt();
+    private static Decrypt decrypt = new Decrypt();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         readStatistics();
-        Encrypt encrypt = new Encrypt();
-        Decrypt decrypt = new Decrypt();
-        decrypt.decrypt(encrypt.encrypt());
+        Boolean loop = true;
+        while (loop) {
+            System.out.println("What do you want?\n(1) Encrypt\n(2) Decrypt\n(x) Stop");
+            switch (scanner.nextLine()) {
+                case "1":
+                    encrypt.encrypt();
+                    break;
+                case "2":
+                    decrypt.decrypt();
+                    break;
+                case "x":
+                    loop = false;
+                    break;
+            }
+        }
+
+
     }
 
     public static void readStatistics() {

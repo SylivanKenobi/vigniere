@@ -8,16 +8,8 @@ public class Caesar {
     private double chiSquare = 0.0;
     private double expected = 0.0;
 
-    public String getEncrypted() {
-        return encrypted;
-    }
-
-    public ArrayList<String> getPossibleDecryptions() {
-        return possibleDecryptions;
-    }
-
-    public ArrayList<String> getPossibleKeyValues() {
-        return possibleKeyValues;
+    public Caesar(String encrypted) {
+        this.encrypted = encrypted;
     }
 
     public void setEncrypted(String encrypted) {
@@ -28,8 +20,8 @@ public class Caesar {
         this.possibleDecryptions = possibleDecryptions;
     }
 
-    public void setPossibleKeyValues(ArrayList<String> possibleKeyValues) {
-        this.possibleKeyValues = possibleKeyValues;
+    public String getEncrypted(){
+        return this.encrypted;
     }
 
     public TreeMap<Double, Character> findKeyLetter() {

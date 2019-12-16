@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Encrypt {
 
-    private Scanner scanner;
+    private Scanner scanner = new Scanner(System.in);
     private Scanner fileScanner;
     private File inputFile;
     private ArrayList<String> inputData = new ArrayList<>();
@@ -15,15 +15,11 @@ public class Encrypt {
     private String oneWord = "";
     private String result = "";
 
-    public String encrypt() {
-        scanner = new Scanner(System.in);
+    public String encrypt() throws FileNotFoundException {
+
         System.out.println("which File shall be encrypted?(Total Path please)");
-        try {
-            inputFile = new File(scanner.nextLine());
-            fileScanner = new Scanner(inputFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        inputFile = new File(scanner.nextLine());
+        fileScanner = new Scanner(inputFile);
         while (fileScanner.hasNextLine()) {
             String input = fileScanner.nextLine();
             inputData.add(input);

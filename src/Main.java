@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -10,14 +11,14 @@ public class Main {
     private static Encrypt encrypt = new Encrypt();
     private static Decrypt decrypt = new Decrypt();
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         readStatistics();
         Boolean loop = true;
         while (loop) {
             System.out.println("What do you want?\n(1) Encrypt\n(2) Decrypt\n(x) Stop");
             switch (scanner.nextLine()) {
                 case "1":
-                    encrypt.encrypt();
+                    System.out.println(encrypt.encrypt());
                     break;
                 case "2":
                     decrypt.decrypt();
@@ -33,7 +34,7 @@ public class Main {
 
     public static void readStatistics() {
         try {
-            File letterFile = new File("letters.txt");
+            File letterFile = new File("resources/letters.txt");
             Scanner fileScanner = new Scanner(letterFile);
             while (fileScanner.hasNextLine()) {
                 String input = fileScanner.nextLine();

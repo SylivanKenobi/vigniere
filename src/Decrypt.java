@@ -32,9 +32,13 @@ public class Decrypt {
     private void decryptWithKey(String toDecrypt, String key) {
         String capitalizedKey = key.toUpperCase();
         StringBuilder decrypted = new StringBuilder();
-        for (int i = 0, j = 0; j < toDecrypt.length(); i++, j++) {
-            i = i == capitalizedKey.length() ? 0 : i;
-            decrypted.append((char) ((((toDecrypt.charAt(j) - capitalizedKey.charAt(i)) + 26) % 26) + 'A'));
+        for (int i = 0, j = 0; j < toDecrypt.length(); j++) {
+            if (toDecrypt.charAt(i) >= 'A' && toDecrypt.charAt(i) <= 'Z') {
+                decrypted.append((char) ((((toDecrypt.charAt(j) - capitalizedKey.charAt(i)) + 26) % 26) + 'A'));
+                i = i >= capitalizedKey.length() - 1 ? 0 : i + 1;
+            } else {
+                decrypted.append(toDecrypt.charAt(j));
+            }
         }
         System.out.println(decrypted);
     }
